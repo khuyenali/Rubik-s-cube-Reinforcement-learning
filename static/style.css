@@ -3,11 +3,21 @@ html{
     font-family: sans-serif;
 }
 
+textarea{
+  /* font-size: ; */
+  font-family: sans-serif;
+  font-size: 1rem;
+  background-color: #eeeeee;
+  border: 1px dotted black;
+}
+
 body {
   background-color: #eeeeee;
   display: flex;
   justify-content: center;
   height: 90vh;
+  /* margin: 0;
+  box-sizing: border-box; */
 }
 
 button{
@@ -30,9 +40,14 @@ h1 {
 
 #buttonContainer {
   margin-right: 10rem;
-  max-width: 40%;
-  min-width: 40%;
+  max-width: 37vw;
+  min-width: 37vw;
   /* font-weight: bold; */
+}
+
+
+#buttonContainer #result{
+  width: 100%;
 }
 
 #container #buttonContainer button:disabled {
@@ -58,9 +73,10 @@ h1 {
 
 #inputScrambleContainer #moves {
   margin-top: 0.5rem;
-  width: 15rem;
-  height: 5rem;
+  width: 20rem;
+  height: 6rem;
   border-radius: 0.25rem;
+
 }
 
 #moves:focus {
@@ -164,10 +180,9 @@ h1 {
   margin-right: 2rem;
 }
 
-#result > div{
-    display: flex;
-    justify-content: center;
-}
+/* #result{
+    display: block;
+} */
 
 /* #f2lre{
     display: flex;

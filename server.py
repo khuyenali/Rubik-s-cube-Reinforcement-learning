@@ -40,12 +40,12 @@ cube = pc.Cube()
 # print(scrambleNumpy)
 
 argParser = argparse.ArgumentParser()
-argParser.add_argument(
-    "-nc", "--threeNetCross", required=True, help="Path of 3x3 Network", type=str
-)
-argParser.add_argument(
-    "-nf", "--threeNetF2L", required=True, help="Path of 3x3 Network", type=str
-)
+# argParser.add_argument(
+#     "-nc", "--threeNetCross", required=True, help="Path of 3x3 Network", type=str
+# )
+# argParser.add_argument(
+#     "-nf", "--threeNetF2L", required=True, help="Path of 3x3 Network", type=str
+# )
 argParser.add_argument(
     "-c3", "--configThree", help="3x3 Config File", type=str
 )
@@ -54,29 +54,34 @@ args = argParser.parse_args()
 
 conf3 = config.Config(args.configThree)
 
-loadPathThreeCross = args.threeNetCross
-loadPathThreeF2L = args.threeNetF2L
+# loadPathThreeCross = args.threeNetCross
+# loadPathThreeF2L = args.threeNetF2L
 
-if not os.path.isfile(loadPathThreeCross):
-    raise ValueError("No 3x3 Network Saved in this Path")
+# if not os.path.isfile(loadPathThreeCross):
+#     raise ValueError("No 3x3 Network Saved in this Path")
 
-if not os.path.isfile(loadPathThreeF2L):
-    raise ValueError("No 3x3 Network Saved in this Path")
+# if not os.path.isfile(loadPathThreeF2L):
+#     raise ValueError("No 3x3 Network Saved in this Path")
 
-env3 = CubeN(conf3.puzzleSize, 'C')
-net3C = getNetwork(conf3.puzzle, conf3.networkType)(conf3.puzzleSize)
-net3F = getNetwork(conf3.puzzle, conf3.networkType)(conf3.puzzleSize)
+env3 = CubeN(3, 'C')
+net3C = getNetwork('cubeN', 'paper')(3)
+net3F = getNetwork('cubeN', 'paper')(3)
+net3X = getNetwork('cubeN', 'paper')(3)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 net3C.to(device)
 net3F.to(device)
+net3X.to(device)
 
-net3C.load_state_dict(torch.load(loadPathThreeCross))
+net3C.load_state_dict(torch.load('saves/CrossNetwork.pt'))
 net3C.eval()
 
-net3F.load_state_dict(torch.load(loadPathThreeF2L))
+net3F.load_state_dict(torch.load('saves/F2LnNetwork.pt'))
 net3F.eval()
+
+net3X.load_state_dict(torch.load("saves/XCrossNetwork.pt"))
+net3X.eval()
 
 
 @app.route("/")
@@ -96,7 +101,7 @@ def auto():
 @app.route('/move', methods=['POST'])
 @cross_origin()
 def move():
-    session = "Cross"
+    session = 'XCross'
     request_data = request.get_json()
     moves = request_data['moves']
 
@@ -105,7 +110,7 @@ def move():
     scrambleNumpy = converToState(cube)
 
     scramble = torch.tensor(scrambleNumpy, dtype=torch.uint8)
-    env3.solveState = 'C'
+    env3.solveState = 'X'
     # print(scramble)
     (
         moves,
@@ -120,17 +125,45 @@ def move():
         env3,
         net3C,
         device,
-        conf3.maxSearchItr,
+        300,
     )
 
-    # print("Solve:", moves)
-    crossResponse = {
-        "done": isSolved,
-        "time": solveTime,
-        "moves": moves,
-        "movesCount": len(moves) if isSolved else -1,
-        "session": "Cross"
-    }
+    if isSolved and len(moves) < 12:
+        crossResponse = {
+            "done": isSolved,
+            "time": solveTime,
+            "moves": moves,
+            "movesCount": len(moves) if isSolved else -1,
+            "session": "XCross"
+        }
+    else:
+        session = "Cross"
+        env3.solveState = 'C'
+        # print(scramble)
+        (
+            moves,
+            numNodesGenerated,
+            searchItr,
+            isSolved,
+            solveTime,
+        ) = batchedWeightedAStarSearch(
+            scramble,
+            conf3.depthWeight,
+            conf3.numParallel,
+            env3,
+            net3C,
+            device,
+            conf3.maxSearchItr,
+        )
+
+        # print("Solve:", moves)
+        crossResponse = {
+            "done": isSolved,
+            "time": solveTime,
+            "moves": moves,
+            "movesCount": len(moves) if isSolved else -1,
+            "session": "Cross"
+        }
 
     cube(" ".join(moves))
     scrambleNumpy = converToState(cube)
@@ -176,15 +209,14 @@ def move():
     pllMoves = str(pSolder.solve())
 
 
-
     response = {
         "cross": crossResponse,
         "f2l": f2lResponse,
-        "oll":{
+        "oll": {
             "moves": ollMoves,
             "movesCount": len(ollMoves.split())
         },
-        'pll':{
+        'pll': {
             "moves": pllMoves,
             "movesCount": len(pllMoves.split())
         }
@@ -193,4 +225,4 @@ def move():
 
 
 if __name__ == "__main__":
-    app.run(host="localhost", port=5000, debug=True)
+    app.run(debug=True)

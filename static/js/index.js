@@ -72,7 +72,9 @@ $(function () {
         }
         $("#result").html('Solving...')
         $("#submit").prop("disabled", true)
-        requestData = {
+        $("#reset").prop("disabled", true)
+        $("#autoScramble").prop("disabled", true)
+        const requestData = {
             moves: moves
         }
         try {
@@ -91,21 +93,25 @@ $(function () {
             const { cross, f2l, oll, pll } = data
 
             if (cross['done']) {
-                cube.execute(cross['moves'].join(" "));
+                cross['moves'] = cross['moves'].join(" ")
+                cube.execute(cross['moves']);
             } else {
                 cross['moves'] = "Not solve"
             }
 
             if (f2l['done']) {
-                cube.execute(f2l['moves'].join(" "))
+                f2l['moves'] = f2l['moves'].join(" ")
+                cube.execute(f2l['moves'])
             } else {
                 f2l['moves'] = "Not Solve"
             }
 
-            crossMovesCount = cross['movesCount']
-            f2lMovesCount = f2l['movesCount']
-            ollMovesCount = oll['movesCount']
-            pllMovesCount = pll['movesCount']
+            const crossMovesCount = cross['movesCount']
+            const f2lMovesCount = f2l['movesCount']
+            const ollMovesCount = oll['movesCount']
+            const pllMovesCount = pll['movesCount']
+
+
             if (ollMovesCount > 0)
                 cube.execute(oll['moves'])
 
@@ -113,18 +119,22 @@ $(function () {
                 cube.execute(pll['moves'])
 
 
-            let crossResult = `<p>Cross(${crossMovesCount} moves): ${cross['moves']}</p>`
-            let f2lResult = `<p>F2L(${f2lMovesCount} moves): ${f2l['moves']}</p>`
-            let ollResult = `<p>OLL(${ollMovesCount} moves): ${oll['moves']}</p>`
-            let pllResult = `<p>PLL(${pllMovesCount} moves): ${pll['moves']}</p>`
+            let crossResult = `${cross['session']}(${crossMovesCount} moves): ${cross['moves']}\n\n`
+            let f2lResult = `F2L(${f2lMovesCount} moves): ${f2l['moves']}\n\n`
+            let ollResult = `OLL(${ollMovesCount} moves): ${oll['moves']}\n\n`
+            let pllResult = `PLL(${pllMovesCount} moves): ${pll['moves']}\n\n`
             let totalMovesCount = crossMovesCount + f2lMovesCount + ollMovesCount + pllMovesCount
             let finalResult = crossResult + f2lResult + ollResult + pllResult +
-                `<p>Total moves: ${totalMovesCount}</p>`
+                `Total moves: ${totalMovesCount}`
 
             $('#result').html(finalResult)
+            $("#reset").prop("disabled", false)
+            $("#autoScramble").prop("disabled", false)
 
         } catch (err) {
             console.log(err);
+            $("#reset").prop("disabled", false)
+            $("#autoScramble").prop("disabled", false)
         }
 
     })
