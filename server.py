@@ -39,20 +39,20 @@ cube = pc.Cube()
 # scrambleNumpy = converToState(cube)
 # print(scrambleNumpy)
 
-argParser = argparse.ArgumentParser()
+# argParser = argparse.ArgumentParser()
 # argParser.add_argument(
 #     "-nc", "--threeNetCross", required=True, help="Path of 3x3 Network", type=str
 # )
 # argParser.add_argument(
 #     "-nf", "--threeNetF2L", required=True, help="Path of 3x3 Network", type=str
 # )
-argParser.add_argument(
-    "-c3", "--configThree", help="3x3 Config File", type=str
-)
+# argParser.add_argument(
+#     "-c3", "--configThree", help="3x3 Config File", type=str
+# )
 
-args = argParser.parse_args()
+# args = argParser.parse_args()
 
-conf3 = config.Config(args.configThree)
+conf3 = config.Config('config/cube3.ini')
 
 # loadPathThreeCross = args.threeNetCross
 # loadPathThreeF2L = args.threeNetF2L

@@ -124,7 +124,7 @@ def batchedWeightedAStarSearch(
             numNodesGenerated += len(children)
             if verbose:
                 print("Search Itr: %i | Best H Value: %.2f | Iteration time: %.2f seconds" % (
-                    searchitr, besthvalue, time.time() - startitertime), flush=True)
+                    searchItr, bestHValue, time.time() - startIterTime), flush=True)
 
             searchItr += 1
 

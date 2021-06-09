@@ -1085,7 +1085,7 @@ $.fn.cube = function (options) {
 
         //initialize scene
         _scene = new THREE.Scene();
-        _camera = new THREE.PerspectiveCamera(75, _ref.width() / _ref.height(), 0.1, 1000);
+        _camera = new THREE.PerspectiveCamera(50, _ref.width() / _ref.height(), 0.1, 1000);
 
         try {
             _renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -1106,7 +1106,7 @@ $.fn.cube = function (options) {
         //setup camera
         _camera.position.x = options.camera.x;
         _camera.position.y = options.camera.y;
-        _camera.position.z = options.camera.z;
+        _camera.position.z = options.camera.z - 35;
 
         //set plugin
         _ref.data("_cube", _ref);
@@ -1116,12 +1116,12 @@ $.fn.cube = function (options) {
         // controls.listenToKeyEvents(window); // optional
 
         controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-        controls.dampingFactor = 0.05;
+        controls.dampingFactor = 0.5;
 
         // controls.screenSpacePanning = false;
 
-        controls.minDistance = 100;
-        controls.maxDistance = 200;
+        controls.minDistance = 200;
+        controls.maxDistance = 500;
 
         // controls.rotateSpeed = 1.5;
         // controls.autoRotate = true;
