@@ -53,6 +53,8 @@ h1 {
 
 #buttonContainer #result{
   width: 80%;
+  height: 13rem;
+  padding: 1rem;
 }
 
 #container #buttonContainer button:disabled {
@@ -80,6 +82,7 @@ h1 {
   margin-top: 0.5rem;
   width: 18rem;
   height: 6rem;
+  padding: 1rem;
   border-radius: 0.25rem;
 
 }
