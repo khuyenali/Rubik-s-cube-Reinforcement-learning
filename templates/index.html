@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rubik's Cube solver</title>
+    <script src="../static/js/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/three.min.js"></script>
+    <script src="../static/js/jquery.cube.threejs.js"></script>
+    <script src="../static/js/roundedBoxGeometry.js"></script>
+    <script src="../static/js/OrbitControls.js"></script>
+    <script src="../static/js/index.js"></script>
+    <link rel="stylesheet" href="../static/style.css">
+
+</head>
+
+<body>
+    <div id="container">
+        <div class="cube" id="cube"></div>
+        <div id="buttonContainer">
+            <h1>Rubik's Cube Solver</h1>
+            <div id="inputContainer">
+                <div id="inputScrambleContainer">
+                    <label for="moves">Input scramble: </label>
+                    <textarea type="text" id="moves" placeholder="Input the Scramble moves here"></textarea>
+                    <div id="inputButtonContainer">
+                        <button id="play">Scramble</button>
+                        <button id="reset">Reset</button>
+                    </div>
+                </div>
+                <div id="or">
+                    <div>OR</div>
+                </div>
+                <button id="autoScramble">Auto Scramble</button>
+            </div>
+            <div id="resultContainer">
+                <textarea name="" id="result" cols="30" rows="10" placeholder="Solution"></textarea>
+            </div>
+            <div id="controllerContainer">
+                <button class="button" id="submit">Solve</button>
+                <button id="resume">Resume</button>
+                <button id="pause">Pause</button>
+            </div>
+            <div id="speedControlContainer">
+                <div class="label">Turn speed: </div>
+                <span>Slow</span>
+                <input type="range" id="turnSpeed" min="50" max="400" value="350" />
+                <span>Fast</span>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,199 @@
+html{
+    font-size: 100%;
+    font-family: sans-serif;
+}
+
+textarea{
+  /* font-size: ; */
+  font-family: sans-serif;
+  font-size: 1rem;
+  background-color: #eeeeee;
+  border: 1px dotted black;
+}
+
+body {
+  background-color: #eeeeee;
+  display: flex;
+  justify-content: center;
+  height: 90vh;
+  /* margin: 0;
+  box-sizing: border-box; */
+}
+
+button{
+    cursor: pointer;
+}
+
+.cube {
+  width: 500px;
+  height: 500px;
+}
+
+#container {
+  display: flex;
+  align-items: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+#buttonContainer {
+  margin-right: 10rem;
+  max-width: 37vw;
+  min-width: 37vw;
+  /* font-weight: bold; */
+}
+
+
+#buttonContainer #resultContainer{
+  display: flex;
+  justify-content: center;
+}
+
+#buttonContainer #result{
+  width: 80%;
+  height: 13rem;
+  padding: 1rem;
+}
+
+#container #buttonContainer button:disabled {
+  background-color: #8d8989;
+  border: 1px solid #968887;
+}
+
+#container #buttonContainer button:disabled:hover {
+  background-color: #615f5f;
+}
+/* input Container ---------------------------------------------------------------------- */
+#inputContainer {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#inputScrambleContainer label {
+  display: block;
+}
+
+#inputScrambleContainer #moves {
+  margin-top: 0.5rem;
+  width: 18rem;
+  height: 6rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+
+}
+
+#moves:focus {
+  outline: none;
+}
+
+#inputContainer button {
+  background-color: #f24537;
+  border: 1px solid #d02718;
+  text-shadow: 0px 1px 0px #810e05;
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+#inputContainer button:hover {
+  background-color: #c62d1f;
+}
+
+#inputContainer #autoScramble {
+  height: 5rem;
+  width: 6rem;
+  border-radius: 1rem;
+}
+
+#inputButtonContainer {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 0.5rem;
+}
+
+#inputButtonContainer button {
+  height: 2.5rem;
+  width: 5.5rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+#or {
+  display: block;
+  width: 4rem;
+}
+
+#or div {
+  position: relative;
+  text-align: center;
+  top: 50%;
+}
+
+/* input Container ---------------------------------------------------------------------- */
+
+/* controller container ------------------------------------------------------------------*/
+#controllerContainer {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  /* width: 80%; */
+}
+
+#controllerContainer button {
+  background-color: #d6d6d6fd;
+  border: 1px solid #eee9e9;
+  border-radius: 0.5rem;
+  margin: 0.25rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  /* padding: 1rem; */
+  height: 3rem;
+  width: 5rem;
+}
+
+#controllerContainer button:hover {
+  background-color: #e4e4e4;
+}
+
+#controllerContainer #submit {
+  background-color: #89c403;
+  border: 1px solid #74b807;
+  height: 3rem;
+  width: 5rem;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  color: #ffffff;
+}
+
+#controllerContainer #submit:hover {
+  background-color: #77a809;
+}
+/* controller container ------------------------------------------------------------------*/
+
+#speedControlContainer #turnSpeed {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+#speedControlContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#speedControlContainer .label {
+  margin-right: 2rem;
+}
+
+/* #result{
+    display: block;
+} */
+
+/* #f2lre{
+    display: flex;
+} */
