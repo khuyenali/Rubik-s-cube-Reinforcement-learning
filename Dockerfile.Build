@@ -8,10 +8,7 @@ git \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
 
-RUN pip install numpy
-RUN pip install torch
-
-COPY requirements.txt ./requirements.txt
+COPY requirements_build.txt ./requirements.txt
 RUN pip install -r requirements.txt
 # RUN pip install numpy Pillow torch
 
