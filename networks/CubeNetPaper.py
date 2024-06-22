@@ -1,6 +1,4 @@
-import torch
 import torch.nn as nn
-
 
 class CubeNet(nn.Module):
     def __init__(self, cubeSize):
@@ -16,6 +14,8 @@ class CubeNet(nn.Module):
             nn.BatchNorm1d(1000),
             nn.ReLU(),
         )
+
+        numResBlocks = 2
 
         if cubeSize == 3:
             numResBlocks = 4

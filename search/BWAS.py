@@ -4,17 +4,24 @@ from heapq import heappop, heappush
 from search.node import Node
 import inspect
 
+
 def convertTostandardMoves(moves):
+    standardMoves = []
     i = 0
     while i < (len(moves) - 1):
         if moves[i] == moves[i + 1]:
-            del moves[i + 1]
             if len(moves[i]) == 2:
-                moves[i] = moves[i][0] + "2"
+                standardMoves.append(moves[i][0] + "2")
             else:
-                moves[i] = moves[i] + "2"
-        
+                standardMoves.append(moves[i] + "2")
+            i += 1
+        else:
+            standardMoves.append(moves[i])
+
         i += 1
+
+    return standardMoves
+
 
 def batchedWeightedAStarSearch(
     scramble,
@@ -25,7 +32,6 @@ def batchedWeightedAStarSearch(
     device,
     maxSearchItr,
     verbose=False,
-    queue=False
 ):
     if not inspect.ismethod(heuristicFn):
         heuristicFn.to(device)
@@ -42,6 +48,7 @@ def batchedWeightedAStarSearch(
     isSolved = False
 
     startTime = time.time()
+    solvedNode = None
 
     with torch.no_grad():
         while not isSolved and searchItr <= maxSearchItr:
@@ -101,8 +108,7 @@ def batchedWeightedAStarSearch(
                     nodesToAddIdx.append(i)
 
             children = [children[i] for i in nodesToAddIdx]
-            depths = torch.tensor([depths[i]
-                                   for i in nodesToAddIdx])
+            depths = torch.tensor([depths[i] for i in nodesToAddIdx])
 
             childrenStates = childrenStates[valChildrenStates][nodesToAddIdx]
 
@@ -111,6 +117,7 @@ def batchedWeightedAStarSearch(
 
             hValue = heuristicFn(childrenStates).cpu()
 
+            bestHValue = 0
             if hValue.nelement() > 0:
                 bestHValue = min(hValue)
 
@@ -118,35 +125,33 @@ def batchedWeightedAStarSearch(
 
             for cost, child in zip(costs, children):
                 child.cost = cost
-                heappush(
-                    openNodes, (child.cost, id(child), child))
+                heappush(openNodes, (child.cost, id(child), child))
 
             numNodesGenerated += len(children)
             if verbose:
-                print("Search Itr: %i | Best H Value: %.2f | Iteration time: %.2f seconds" % (
-                    searchItr, bestHValue, time.time() - startIterTime), flush=True)
+                print(
+                    "Search Itr: %i | Best H Value: %.2f | Iteration time: %.2f seconds"
+                    % (searchItr, bestHValue, time.time() - startIterTime),
+                    flush=True,
+                )
 
             searchItr += 1
 
     searchTime = time.time() - startTime
 
+    moves = []
     if isSolved:
-
-        moves = []
         node = solvedNode
 
-        while node.depth > 0:
-            moves.append(node.parentMove)
-            node = node.parent
-
-        moves = moves[::-1]
+        if node != None:
+            while node.depth > 0:
+                moves.append(node.parentMove)
+                node = node.parent
+            moves = moves[::-1]
 
     else:
         moves = None
 
-    if queue:
-        queue.put((moves, numNodesGenerated, searchItr, isSolved, searchTime))
-    else:
-        if moves:
-            convertTostandardMoves(moves)
-        return moves, numNodesGenerated, searchItr, isSolved, searchTime
+    if moves:
+        convertTostandardMoves(moves)
+    return moves, numNodesGenerated, searchItr, isSolved, searchTime
