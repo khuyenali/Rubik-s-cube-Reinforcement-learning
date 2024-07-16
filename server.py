@@ -38,16 +38,21 @@ colorToNum = {
 # }
 
 
-def converToState(cube):
+def converToState(cube: pc.Cube):
     state = []
     for face in "UFLDBR":
         face = cube.get_face(face)
         for row in face:
             for color in row:
                 # state.append(int(str(color)))
+                print(color)
                 state.append(colorToNum[str(color)[1]])
     state = np.array(state)
     return state
+
+cube = pc.Cube()
+# cube(moves)
+converToState(cube)
 
 
 cube = pc.Cube()
@@ -215,4 +220,5 @@ def move():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    pass
+    # app.run(host="0.0.0.0", debug=True)

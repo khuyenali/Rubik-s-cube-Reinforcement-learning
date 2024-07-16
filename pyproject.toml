@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "rubik"
+version = "0.1.0"
+description = ""
+authors = ["Bod Lee <khuyenali@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^2.0.0"
+torch = "^2.3.1"
+pycuber = "^0.2.2"
+flask = "^3.0.3"
+flask-cors = "^4.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
